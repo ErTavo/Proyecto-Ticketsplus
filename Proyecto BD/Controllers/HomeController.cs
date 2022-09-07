@@ -26,6 +26,10 @@ namespace Proyecto_BD.Controllers
         {
             return View();
         }
+        public IActionResult Carrito()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

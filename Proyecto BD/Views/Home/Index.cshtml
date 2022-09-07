@@ -2,6 +2,120 @@
     ViewData["Title"] = "Home Page";
 }
 
+<header class="header_section">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <span>
+                    Tickets+
+                </span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class=""> </span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav  mx-auto ">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Eventos">Eventos</a>
+                    </li>
+                </ul>
+                <div class="user_option">
+                    <a href="" class="user_link">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                    <a class="order_online" asp-controller="Home" asp-action="Carrito">
+                        Compra ahora
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <section class="slider_section ">
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                    <h1>
+                                        Conciertos
+                                    </h1>
+                                    <p>
+                                        Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                    </p>
+                                    <div class="btn-box">
+                                        <a class="btn1" asp-controller="Home" asp-action="Carrito">
+                                            Compra Ya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item ">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                    <h1>
+                                        Ferias y Convenciones
+                                    </h1>
+                                    <p>
+                                        Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                    </p>
+                                    <div class="btn-box">
+                                        <a class="btn1" asp-controller="Home" asp-action="Carrito">
+                                            Compra Ya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                    <h1>
+                                        Teatro y comedia
+                                    </h1>
+                                    <p>
+                                        Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat dolore, iste magni quos nihil ducimus libero ipsam.
+                                    </p>
+                                    <div class="btn-box">
+                                        <a class="btn1" asp-controller="Home" asp-action="Carrito">
+                                            Compra Ya
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <ol class="carousel-indicators">
+                    <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+                    <li data-target="#customCarousel1" data-slide-to="1"></li>
+                    <li data-target="#customCarousel1" data-slide-to="2"></li>
+                </ol>
+            </div>
+        </div>
+
+    </section>
+
+</header>
+            
 
 
   
@@ -17,13 +131,13 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Tasty Thursdays
+                  Feria Ingenieria
                 </h5>
                 <h6>
-                  <span>20%</span> Off
+                  <span>Gratis</span> 
                 </h6>
-                <a href="">
-                  Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                <a class="" asp-controller="Home" asp-action="Carrito">
+                  Ordene ahora <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                     <g>
                       <g>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -86,13 +200,13 @@
               </div>
               <div class="detail-box">
                 <h5>
-                  Pizza Days
+                  Conciertos Musicales
                 </h5>
                 <h6>
-                  <span>15%</span> Off
+                  <span>Gratis</span> 
                 </h6>
-                <a href="">
-                  Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                <a class="" asp-controller="Home" asp-action="Carrito">
+                  Ordene ahora <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                     <g>
                       <g>
                         <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
@@ -153,7 +267,7 @@
     </div>
   </section>
 
-  <!-- end offer section -->
+ <!-- end offer section -->
 
  
 
@@ -172,18 +286,13 @@
           <div class="detail-box">
             <div class="heading_container">
               <h2>
-                We Are Feane
+                Somos Ticket+
               </h2>
             </div>
             <p>
-              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-              in some form, by injected humour, or randomised words which don't look even slightly believable. If you
-              are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
-              the middle of text. All
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare porta turpis a euismod. Sed quis ex eu lacus scelerisque ullamcorper eu ut dolor. Vestibulum et sagittis mauris, non feugiat leo. In vel nunc leo. Vivamus a ante et libero volutpat pretium. Sed vulputate tellus non neque aliquam consectetur. Vivamus et mattis quam. Sed interdum, quam vitae ornare mollis, orci ex bibendum ante, id accumsan mi sapien quis leo. Vestibulum tempor sollicitudin tellus sit amet molestie. Morbi maximus leo nec cursus convallis.
             </p>
-            <a href="">
-              Read More
-            </a>
+            
           </div>
         </div>
       </div>
