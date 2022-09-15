@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Net;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Proyecto_BD.Controllers
 {
@@ -20,6 +21,7 @@ namespace Proyecto_BD.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
             return View();
@@ -30,6 +32,12 @@ namespace Proyecto_BD.Controllers
         }
         public IActionResult Carrito()
         {
+            return View();
+        }
+
+        public IActionResult Confirmacion(string EmailDestino)
+        {
+            SendEmail(EmailDestino);
             return View();
         }
 
@@ -45,16 +53,12 @@ namespace Proyecto_BD.Controllers
         }
         //Boton Reclamar boletos
 
-        private void SendEmail(string EmailDestino, int idboleto)
+        private void SendEmail(string EmailDestino)
         {
-
-
-
-
-            string EmailOrigen = "correo@gmail.com";
-            string Contrase単a = "Hola1234";
+            string EmailOrigen = "proyectosudeo321@gmail.com";
+            string Contrase単a = "ibljpoybidoaiwio";
             MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Boletos",
-                "<p>Adjuntamos los boletos para su evento</p><br>");
+                "<p>Adjuntamos los boletos para su evento</p><br>" );
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient
@@ -70,5 +74,31 @@ namespace Proyecto_BD.Controllers
             smtp.Send(oMailMessage);
             smtp.Dispose();
         }
+
+        [HttpGet]
+        public IActionResult Recuperar()
+        {
+            RecuperarViewModel model = new RecuperarViewModel();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public int Recuperar(string model)
+        {
+            if (model !="")
+            {
+                SendEmail(model);
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+                
+            
+
+        }
+
     }
 }
