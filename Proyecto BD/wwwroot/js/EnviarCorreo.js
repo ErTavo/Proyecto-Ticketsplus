@@ -2,13 +2,22 @@
     $('#Enviar').click(function (e) {
         e.preventDefault();
         let model = $("#correo").val();
+        let nombre = $("#Nombre").val();
+        let telefono = $("#Telefono").val();
+        let evento = $("#Evento").val();
         console.log(model)
+        console.log(nombre)
+        console.log(telefono)
+        console.log(evento)
         if (ValidarCorreo(model)) {
             $.ajax({
                 type: "POST",
                 url: "/Home/Recuperar",
                 data: {
-                    model
+                    model,
+                    nombre,
+                    telefono,
+                    evento
                 },
                 dataType: "json",
                 success: function (response) {

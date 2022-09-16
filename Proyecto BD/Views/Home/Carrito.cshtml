@@ -56,10 +56,13 @@
                 <div class="form_container">
                         <form action="@Url.Content("~/Home/Recuperar")" method="post">
                         <div>
-                            <input type="text" class="form-control" placeholder="Nombre" />
+                                @Html.TextBoxFor(d => d.Nombre, null, new { @class = "form-control", id = "Nombre",  placeholder="Nombre" })
+                                @Html.ValidationMessageFor(d => d.Nombre, null, new { @style = "color:red" })
                         </div>
                         <div>
-                            <input type="text" class="form-control" placeholder="Numero de Telefono" />
+                            
+                                @Html.TextBoxFor(d => d.Telefono, null, new { @class = "form-control", id = "Telefono",  placeholder="Telefono" })
+                                @Html.ValidationMessageFor(d => d.Telefono, null, new { @style = "color:red" })
                         </div>
                         <div >
                                 
@@ -68,20 +71,41 @@
                                 
                         </div>
                         <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    Escoje tu evento
-                  </option>
-                  <option value="">
-                    Feria Ingenieria
-                  </option>
-                  <option value="">
-                    Concierto
-                  </option>
-                  <option value="">
-                    Show de Comedia
-                  </option>
-                </select>
+                               @* @Html.DropDownListFor(d => d.Evento, null, new { @class = "form-control", id = "Evento" })*@
+
+
+@*                                @Html.DropDownListFor(m => m.Eventos,  new SelectList(Enum.GetValues(typeof(Evento))),  "Escoja su evento")
+@*                                @Html.ValidationMessageFor(d => d.Evento, null, new { @style = "color:red" })*@
+
+   @*                             <select class="form-control" id="Eventos" name="Eventos">
+                                    <option>Escoja su Evento</option>
+                                    <option>Feria_Ingenieria</option>
+                                    <option>Concierto</option>
+                                    <option>Show_de_Comedia</option>
+*@
+                                @{
+                                    List<SelectListItem> listItems = new List<SelectListItem>();
+                                    listItems.Add(new SelectListItem
+            {
+                Text = "Feria de Ingenieria",
+                Value = "Feria de Ingenieria"
+            });
+                                    listItems.Add(new SelectListItem
+            {
+                Text = "Concierto",
+                Value = "Concierto",
+                
+            });
+                                    listItems.Add(new SelectListItem
+            {
+                Text = "Show de comedia",
+                Value = "Show de comedia"
+            });
+                                }
+
+                                @Html.DropDownListFor(model => model.Eventos, listItems, "Seleccione su evento",  new{@class = "form-control", id = "Evento"})
+
+                
               </div>
                             <div class="btn_box" >
                                 <button id="Enviar">

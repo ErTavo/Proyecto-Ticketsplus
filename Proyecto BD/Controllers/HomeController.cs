@@ -9,6 +9,13 @@ using System.Net.Mail;
 using System.Net;
 using System.Threading.Tasks;
 using System.Reflection;
+using QRCoder;
+using System.Drawing;
+using static QRCoder.PayloadGenerator;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Hosting.Server;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.IO;
 
 namespace Proyecto_BD.Controllers
 {
@@ -35,11 +42,7 @@ namespace Proyecto_BD.Controllers
             return View();
         }
 
-        public IActionResult Confirmacion(string EmailDestino)
-        {
-            SendEmail(EmailDestino);
-            return View();
-        }
+        
 
         public IActionResult Privacy()
         {
@@ -51,14 +54,38 @@ namespace Proyecto_BD.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        //Generador de QR
+        private void GenerarQR(int id)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Turip ip ip", QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png", System.Drawing.Imaging.ImageFormat.Png);
+        }
+
+        
+
+
+
         //Boton Reclamar boletos
 
-        private void SendEmail(string EmailDestino)
+        private void SendEmail(string EmailDestino, string nombre, string telefono, string evento)
         {
+
+
+
+
+
+            int numeroticket=0;
+
+            GenerarQR(numeroticket);
             string EmailOrigen = "proyectosudeo321@gmail.com";
             string Contrase単a = "ibljpoybidoaiwio";
+            
             MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Boletos",
-                "<p>Adjuntamos los boletos para su evento</p><br>" );
+                "<p>Adjuntamos los boletos para su evento</p><br>");
+            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient
@@ -74,6 +101,12 @@ namespace Proyecto_BD.Controllers
             smtp.Send(oMailMessage);
             smtp.Dispose();
         }
+        private void GuardarEntrada()
+        {
+
+        }
+
+
 
         [HttpGet]
         public IActionResult Recuperar()
@@ -84,11 +117,11 @@ namespace Proyecto_BD.Controllers
 
 
         [HttpPost]
-        public int Recuperar(string model)
+        public int Recuperar(string model, string nombre, string telefono, string evento)
         {
             if (model !="")
             {
-                SendEmail(model);
+                SendEmail(model, nombre, telefono, evento);
                 return 1;
             }
             else
