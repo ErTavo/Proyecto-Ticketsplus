@@ -58,7 +58,7 @@ namespace Proyecto_BD.Controllers
         private void GenerarQR(int id)
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Turip ip ip", QRCodeGenerator.ECCLevel.Q);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: 142", QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png", System.Drawing.Imaging.ImageFormat.Png);
@@ -87,7 +87,7 @@ namespace Proyecto_BD.Controllers
                 "<h1> Muchas Gracias por tu preferencia </h1>" +
                 "<p>Adjuntamos los boletos para su evento</p>" +
                 "<a><img src=https://images.squarespace-cdn.com/content/v1/56be46a6b6aa60dbb45e41a5/1580423021730-66FL6RSLNEJJAKBGDU2I/RaffleTicket_iStock-114267095.jpg?format=1000w></a><br>");
-            //oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
+            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient
