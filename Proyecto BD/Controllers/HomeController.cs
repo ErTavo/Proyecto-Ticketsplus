@@ -79,13 +79,15 @@ namespace Proyecto_BD.Controllers
 
             int numeroticket=0;
 
-            GenerarQR(numeroticket);
+            //GenerarQR(numeroticket);
             string EmailOrigen = "proyectosudeo321@gmail.com";
             string Contrase単a = "ibljpoybidoaiwio";
             
             MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Boletos",
-                "<p>Adjuntamos los boletos para su evento</p><br>");
-            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
+                "<h1> Muchas Gracias por tu preferencia </h1>" +
+                "<p>Adjuntamos los boletos para su evento</p>" +
+                "<a><img src=https://images.squarespace-cdn.com/content/v1/56be46a6b6aa60dbb45e41a5/1580423021730-66FL6RSLNEJJAKBGDU2I/RaffleTicket_iStock-114267095.jpg?format=1000w></a><br>");
+            //oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient
