@@ -84,9 +84,18 @@ namespace Proyecto_BD.Controllers
             string Contrase単a = "ibljpoybidoaiwio";
             
             MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Boletos",
-                "<h1> Muchas Gracias por tu preferencia </h1>" +
-                "<p>Adjuntamos los boletos para su evento</p>" +
-                "<a><img src=https://images.squarespace-cdn.com/content/v1/56be46a6b6aa60dbb45e41a5/1580423021730-66FL6RSLNEJJAKBGDU2I/RaffleTicket_iStock-114267095.jpg?format=1000w></a><br>");
+                "<h2> Ticket+ </h2>" +
+                "<h3> ¡Gracias por confiar en nosotros! Tenemos tus necesidades como la prioridad número 1. Eres parte esencial de lo que hacemos en Ticket+, esperamos que tu experiencia con nosotros fuera extraordinaria. </h3>" +
+                "<h3> A continuación adjuntamos el código QR que será la llave a toda la información sobre tu evento. </h3>" +
+                "<li> Nombre </li>" +
+                "<li> Teléfono </li>" +
+                "<li> Correo </li>" +
+                "<li> No. Ticket </li>" +
+                "<li> Evento </li>" +
+                "<li> Fecha </li>" +
+                "<h3> Asegúrate de escanear la imagen de tu código QR completamente, incluyendo los bordes en blanco. </h3>" +
+                "<h3> Muchas gracias por tu preferencia  </h3>" +
+                "<a><img src=https://www.ukapp.org.uk/wp-content/uploads/2021/08/tickets.png </a><br>");
             //oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
 
             oMailMessage.IsBodyHtml = true;
