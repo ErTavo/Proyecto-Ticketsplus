@@ -16,6 +16,8 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Hosting.Server;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using System.IO;
+using Microsoft.SqlServer.Server;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Proyecto_BD.Controllers
 {
@@ -60,7 +62,7 @@ namespace Proyecto_BD.Controllers
 
 
         //Generador de QR
-        private void GenerarQR(int id)
+        private void GenerarQR(int idticket, int ideven, int idcli)
 
 
         {
@@ -68,19 +70,26 @@ namespace Proyecto_BD.Controllers
 
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: 142", QRCodeGenerator.ECCLevel.Q);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: "+idticket, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo"+id+".png", System.Drawing.Imaging.ImageFormat.Png);
+            qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + idticket+".png", System.Drawing.Imaging.ImageFormat.Png);
 
+            byte[] i = imagentobyte(qrCodeImage);
+                
+            
+
+            
+            
             try
             {
                 var _db = new TicketsplusDBContext();
-                _db.Tickets.Add(new Ticket { Qr = qrCodeImage});
+                //_db.Tickets.Add(new Ticket {IdEvento = ideven, IdCliente= idcli ,Qr = "C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + idticket+".png" });
+                _db.Tickets.Add(new Ticket {IdEvento = ideven, IdCliente= idcli ,Qr = i });
                 _db.SaveChanges();
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
 
                 return;
@@ -88,7 +97,13 @@ namespace Proyecto_BD.Controllers
 
         }
 
-        
+        public static byte[] imagentobyte(Bitmap qrCodeImage)
+        {
+            ImageConverter convertidor = new ImageConverter();
+            return (byte[])convertidor.ConvertTo(qrCodeImage, typeof(byte[]));
+        }
+
+
 
 
 
@@ -96,11 +111,40 @@ namespace Proyecto_BD.Controllers
 
         private void SendEmail(string[] datos)
         {
+            // Guardar cliente en db
+            try
+            {
+                var _db = new TicketsplusDBContext();
+                _db.Clientes.Add(new Cliente { Nombre = datos[1], Telefono = Int32.Parse(datos[2]), Correo = datos[0] });
+                _db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             // numero de ticket
             int noti;
+            int nocliente;
             List<Ticket> tickets = new List<Ticket>();
             List<Evento> Eventos = new List<Evento>();
+            List<Cliente> clietnes = new List<Cliente>();
+            int noevento;
+
+            if (datos[3] != "Feria de Ingenieria")
+            {
+                noevento = 4;
+
+                if (datos[3] != "Concierto")
+                {
+                    noevento = 5;
+                }
+            }
+            else
+            {
+                noevento = 1;
+            }
 
             try
             {
@@ -108,15 +152,17 @@ namespace Proyecto_BD.Controllers
                 {
                     tickets = _db.Tickets.Where(x => x.IdTicket != 0).ToList();
 
+                    clietnes = _db.Clientes.Where(x => x.Nombre != "").ToList();
 
                     Eventos = _db.Eventos.Where(x => x.Nombre == datos[3]).ToList();
 
                 }
                 noti = tickets.Count();
+                nocliente = clietnes.Count();
 
 
             }
-            catch (Exception e)
+            catch (Exception )
             {
 
                 return;
@@ -128,22 +174,23 @@ namespace Proyecto_BD.Controllers
 
 
 
+            
+
+
+            GenerarQR(noti, noevento, nocliente);
+
             try
             {
                 var _db = new TicketsplusDBContext();
-                _db.Clientes.Add(new Cliente { Nombre = datos[1], Telefono = Convert.ToUInt16(datos[2])});                
+                _db.Ticketxclientes.Add(new Ticketxcliente { IdCliente = nocliente, IdTicket = noti });
                 _db.SaveChanges();
-                
+
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+
+                return;
             }
-
-
-            GenerarQR(noti);
-
-
 
 
             string EmailOrigen = "proyectosudeo321@gmail.com";
@@ -158,12 +205,11 @@ namespace Proyecto_BD.Controllers
                 "<li> Correo: " + datos[0] + " </li>" +
                 "<li> No. Ticket: "+ noti +"</li>" +
                 "<li> Evento: " + datos[3] + " </li>" +
-                "<li> Fecha: " + Eventos[2].Fecha +" </li>" + 
-                "<li> Qr: " + tickets[noti].Qr + " </li>" + 
+                "<li> Fecha: " + Eventos[0].Fecha +" </li>" + 
                 "<h3> Asegúrate de escanear la imagen de tu código QR completamente, incluyendo los bordes en blanco. </h3>" +
                 "<h3> Muchas gracias por tu preferencia  </h3>" +
                 "<a><img src=https://www.ukapp.org.uk/wp-content/uploads/2021/08/tickets.png </a><br>");
-            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo"+noti+".png"));            
+            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + noti+".png"));            
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient

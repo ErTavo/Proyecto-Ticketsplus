@@ -26,8 +26,8 @@ namespace Proyecto_BD.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=TAVO-PC;User ID=sa;Password=1234;Database=TicketsplusDB;Trusted_Connection=True; encrypt=false");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=TAVO-PC;user=sa;password=1234;Database=TicketsplusDB;Trusted_Connection=True;encrypt=false;");
             }
         }
 
@@ -97,7 +97,6 @@ namespace Proyecto_BD.Models
                 entity.Property(e => e.IdEvento).HasColumnName("ID_EVENTO");
 
                 entity.Property(e => e.Qr)
-                    .IsRequired()
                     .HasColumnType("image")
                     .HasColumnName("QR");
 
@@ -110,22 +109,24 @@ namespace Proyecto_BD.Models
 
             modelBuilder.Entity<Ticketxcliente>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdTicketxCliente);
 
                 entity.ToTable("TICKETXCLIENTE");
+
+                entity.Property(e => e.IdTicketxCliente).HasColumnName("ID_TicketxCliente");
 
                 entity.Property(e => e.IdCliente).HasColumnName("ID_CLIENTE");
 
                 entity.Property(e => e.IdTicket).HasColumnName("ID_TICKET");
 
                 entity.HasOne(d => d.IdClienteNavigation)
-                    .WithMany()
+                    .WithMany(p => p.Ticketxclientes)
                     .HasForeignKey(d => d.IdCliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TICKETXCL__ID_CL__2A4B4B5E");
 
                 entity.HasOne(d => d.IdTicketNavigation)
-                    .WithMany()
+                    .WithMany(p => p.Ticketxclientes)
                     .HasForeignKey(d => d.IdTicket)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TICKETXCL__ID_TI__2A4B4B5E");

@@ -19,7 +19,8 @@
                     console.log(response);
                     console.log(datos);
                     if (response === 1) {
-                        swal("", "Correo enviado exitosamente", "success");                        
+                        swal("", "Correo enviado exitosamente", "success");     
+                        location.reload;
                     } else {
                         swal("Error", "El correo introducido no es valido", "warning");                        
                     }
