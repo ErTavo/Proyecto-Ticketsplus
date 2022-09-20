@@ -5,24 +5,19 @@
         let nombre = $("#Nombre").val();
         let telefono = $("#Telefono").val();
         let evento = $("#Evento").val();
-        console.log(model)
-        console.log(nombre)
-        console.log(telefono)
-        console.log(evento)
-        if (ValidarCorreo(model)) {
+        var datos = [model, nombre, telefono, evento];
+        
+        if (ValidarCorreo(datos[0])) {
             $.ajax({
                 type: "POST",
                 url: "/Home/Recuperar",
                 data: {
-                    model,
-                    nombre,
-                    telefono,
-                    evento
+                    datos
                 },
                 dataType: "json",
                 success: function (response) {
                     console.log(response);
-                    console.log(model);
+                    console.log(datos);
                     if (response === 1) {
                         swal("", "Correo enviado exitosamente", "success");                        
                     } else {

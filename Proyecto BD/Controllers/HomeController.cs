@@ -54,14 +54,38 @@ namespace Proyecto_BD.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
+
+
         //Generador de QR
         private void GenerarQR(int id)
+
+
         {
+            
+
+
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: 142", QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
-            //qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png", System.Drawing.Imaging.ImageFormat.Png);
+            qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo"+id+".png", System.Drawing.Imaging.ImageFormat.Png);
+
+            try
+            {
+                var _db = new TicketsplusDBContext();
+                _db.Tickets.Add(new Ticket { Qr = qrCodeImage});
+                _db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+
+                return;
+            }
+
         }
 
         
@@ -70,33 +94,76 @@ namespace Proyecto_BD.Controllers
 
         //Boton Reclamar boletos
 
-        private void SendEmail(string EmailDestino, string nombre, string telefono, string evento)
+        private void SendEmail(string[] datos)
         {
 
+            // numero de ticket
+            int noti;
+            List<Ticket> tickets = new List<Ticket>();
+            List<Evento> Eventos = new List<Evento>();
+
+            try
+            {
+                using (var _db = new TicketsplusDBContext())
+                {
+                    tickets = _db.Tickets.Where(x => x.IdTicket != 0).ToList();
+
+
+                    Eventos = _db.Eventos.Where(x => x.Nombre == datos[3]).ToList();
+
+                }
+                noti = tickets.Count();
+
+
+            }
+            catch (Exception e)
+            {
+
+                return;
+            }
+
+            noti = noti + 1;
+
+            
+
+
+
+            try
+            {
+                var _db = new TicketsplusDBContext();
+                _db.Clientes.Add(new Cliente { Nombre = datos[1], Telefono = Convert.ToUInt16(datos[2])});                
+                _db.SaveChanges();
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+
+            GenerarQR(noti);
 
 
 
 
-            int numeroticket=0;
-
-            //GenerarQR(numeroticket);
             string EmailOrigen = "proyectosudeo321@gmail.com";
             string Contrase単a = "ibljpoybidoaiwio";
             
-            MailMessage oMailMessage = new MailMessage(EmailOrigen, EmailDestino, "Boletos",
+            MailMessage oMailMessage = new MailMessage(EmailOrigen, datos[0], "Boletos",
                 "<h2> Ticket+ </h2>" +
                 "<h3> ¡Gracias por confiar en nosotros! Tenemos tus necesidades como la prioridad número 1. Eres parte esencial de lo que hacemos en Ticket+, esperamos que tu experiencia con nosotros fuera extraordinaria. </h3>" +
                 "<h3> A continuación adjuntamos el código QR que será la llave a toda la información sobre tu evento. </h3>" +
-                "<li> Nombre </li>" +
-                "<li> Teléfono </li>" +
-                "<li> Correo </li>" +
-                "<li> No. Ticket </li>" +
-                "<li> Evento </li>" +
-                "<li> Fecha </li>" +
+                "<li> Nombre: " + datos[1]+" </li>"  +
+                "<li> Teléfono: " + datos[2] + " </li>" +
+                "<li> Correo: " + datos[0] + " </li>" +
+                "<li> No. Ticket: "+ noti +"</li>" +
+                "<li> Evento: " + datos[3] + " </li>" +
+                "<li> Fecha: " + Eventos[2].Fecha +" </li>" + 
+                "<li> Qr: " + tickets[noti].Qr + " </li>" + 
                 "<h3> Asegúrate de escanear la imagen de tu código QR completamente, incluyendo los bordes en blanco. </h3>" +
                 "<h3> Muchas gracias por tu preferencia  </h3>" +
                 "<a><img src=https://www.ukapp.org.uk/wp-content/uploads/2021/08/tickets.png </a><br>");
-            //oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRba.png"));
+            oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Backup Miercoles 14\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo"+noti+".png"));            
 
             oMailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient
@@ -104,6 +171,7 @@ namespace Proyecto_BD.Controllers
                 Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,
+
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(EmailOrigen, Contrase単a),
@@ -123,16 +191,27 @@ namespace Proyecto_BD.Controllers
         public IActionResult Recuperar()
         {
             RecuperarViewModel model = new RecuperarViewModel();
-            return View(model);
+            RecuperarViewModel nombre = new RecuperarViewModel();
+            RecuperarViewModel telefono = new RecuperarViewModel();
+            RecuperarViewModel evento = new RecuperarViewModel();
+            List<RecuperarViewModel> datos = new List<RecuperarViewModel>();
+            datos.Add(model);
+            datos.Add(nombre);
+            datos.Add(telefono);
+            datos.Add(evento);
+
+            
+            return View(datos);
         }
 
 
         [HttpPost]
-        public int Recuperar(string model, string nombre, string telefono, string evento)
+        public int Recuperar(string[] datos)
         {
-            if (model !="")
+            
+            if (datos[0] !="")
             {
-                SendEmail(model, nombre, telefono, evento);
+                SendEmail(datos);
                 return 1;
             }
             else
