@@ -59,7 +59,9 @@ namespace Proyecto_BD.Controllers
 
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: "+idticket, QRCodeGenerator.ECCLevel.Q);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: "+idticket+",  "+
+                "Tu numero de cliente es: "+idcli+",  " +
+                "El numero del Evento es: "+idcli+"." , QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + idticket+".png", System.Drawing.Imaging.ImageFormat.Png);
@@ -180,20 +182,20 @@ namespace Proyecto_BD.Controllers
 
             string EmailOrigen = "proyectosudeo321@gmail.com";
             string Contrase単a = "ibljpoybidoaiwio";
-            
+
             MailMessage oMailMessage = new MailMessage(EmailOrigen, datos[0], "Boletos",
                 "<h2> Ticket+ </h2>" +
                 "<h3> ¡Gracias por confiar en nosotros! Tenemos tus necesidades como la prioridad número 1. Eres parte esencial de lo que hacemos en Ticket+, esperamos que tu experiencia con nosotros fuera extraordinaria. </h3>" +
                 "<h3> A continuación adjuntamos el código QR que será la llave a toda la información sobre tu evento. </h3>" +
-                "<li> Nombre: " + datos[1]+" </li>"  +
+                "<li> Nombre: " + datos[1] + " </li>" +
                 "<li> Teléfono: " + datos[2] + " </li>" +
                 "<li> Correo: " + datos[0] + " </li>" +
-                "<li> No. Ticket: "+ noti +"</li>" +
+                "<li> No. Ticket: " + noti + "</li>" +
                 "<li> Evento: " + datos[3] + " </li>" +
-                "<li> Fecha: " + Eventos[0].Fecha +" </li>" + 
+                "<li> Fecha: " + Eventos[0].Fecha + " </li>" +
                 "<h3> Asegúrate de escanear la imagen de tu código QR completamente, incluyendo los bordes en blanco. </h3>" +
-                "<h3> Muchas gracias por tu preferencia  </h3>" +
-                "<a><img src=https://www.ukapp.org.uk/wp-content/uploads/2021/08/tickets.png </a><br>");
+                "<h3> Muchas gracias por tu preferencia  </h3><br>" );
+                //"<a><img src=https://www.ukapp.org.uk/wp-content/uploads/2021/08/tickets.png </a>");
             oMailMessage.Attachments.Add(new Attachment("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + noti+".png"));            
 
             oMailMessage.IsBodyHtml = true;
