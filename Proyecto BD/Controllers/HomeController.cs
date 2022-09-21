@@ -43,9 +43,6 @@ namespace Proyecto_BD.Controllers
         {
             return View();
         }
-
-        
-
         public IActionResult Privacy()
         {
             return View();
@@ -57,18 +54,10 @@ namespace Proyecto_BD.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-
-
-
         //Generador de QR
         private void GenerarQR(int idticket, int ideven, int idcli)
 
-
         {
-            
-
-
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: "+idticket, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
@@ -76,11 +65,7 @@ namespace Proyecto_BD.Controllers
             qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + idticket+".png", System.Drawing.Imaging.ImageFormat.Png);
 
             byte[] i = imagentobyte(qrCodeImage);
-                
-            
 
-            
-            
             try
             {
                 var _db = new TicketsplusDBContext();
