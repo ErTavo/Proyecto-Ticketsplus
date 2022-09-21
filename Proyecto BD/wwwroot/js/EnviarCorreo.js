@@ -7,7 +7,7 @@
         let evento = $("#Evento").val();
         var datos = [model, nombre, telefono, evento];
         
-        if (ValidarCorreo(datos[0])) {
+        if (ValidarCorreo(datos)) {
             $.ajax({
                 type: "POST",
                 url: "/Home/Recuperar",
@@ -33,7 +33,7 @@
 });
 
 function ValidarCorreo(correo) {
-    if (correo != "") {
+    if (correo[0] != "") {
         return true;
     }
     return false;
