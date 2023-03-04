@@ -61,7 +61,7 @@ namespace Proyecto_BD.Controllers
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode("Tu numero de Ticket es: "+idticket+",  "+
                 "Tu numero de cliente es: "+idcli+",  " +
-                "El numero del Evento es: "+idcli+"." , QRCodeGenerator.ECCLevel.Q);
+                "El numero del Evento es: "+ideven+"." , QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             qrCodeImage.Save("C:\\Users\\gusjr\\Documents\\GitHub\\Proyecto-BD\\Proyecto BD\\wwwroot\\images\\QRs\\QRNo" + idticket+".png", System.Drawing.Imaging.ImageFormat.Png);
